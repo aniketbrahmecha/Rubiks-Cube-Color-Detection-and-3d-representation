@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# Filename      : video.py
-# Author        : Kim K
-# Created       : Fri, 29 Jan 2016
-# Last Modified : Sun, 31 Jan 2016
-
-
 from sys import exit as Die
 try:
     import sys
@@ -24,14 +16,6 @@ class Webcam:
         self.preview_stickers = self.get_sticker_coordinates('preview')
 
     def get_sticker_coordinates(self, name):
-        """
-        Every array has 2 values: x and y.
-        Grouped per 3 since on the cam will be
-        3 rows of 3 stickers.
-
-        :param name: the requested color type
-        :returns: list
-        """
         stickers = {
             'main': [
                 [200, 120], [300, 120], [400, 120],
@@ -69,35 +53,29 @@ class Webcam:
         
 
     def color_to_notation(self, color):
-        """
-        Return the notation from a specific color.
-        We want a user to have green in front, white on top,
-        which is the usual.
 
-        :param color: the requested color
-        """
         notation = {
-            'green'  : 'F',
-            'white'  : 'U',
-            'blue'   : 'B',
+            #'green'  : 'F',
+            #'white'  : 'U',
+            #'blue'   : 'B',
+            #'red'    : 'R',
+            #'orange' : 'L',
+            #'yellow' : 'D',
+
+            'green'  : 'B',
+            'white'  : 'D',
+            'blue'   : 'F',
             'red'    : 'R',
             'orange' : 'L',
-            'yellow' : 'D'
+            'yellow' : 'U'
+
+
+
+
         }
         return notation[color]
 
     def scan(self):
-        """
-        Open up the webcam and scans the 9 regions in the center
-        and show a preview in the left upper corner.
-
-        After hitting the space bar to confirm, the block below the
-        current stickers shows the current state that you have.
-        This is show every user can see what the computer toke as input.
-
-        :returns: dictionary
-        """
-
         sides   = {}
         preview = ['white','white','white',
                    'white','white','white',
@@ -128,7 +106,7 @@ class Webcam:
                     face = self.color_to_notation(state[4])
                     notation = [self.color_to_notation(color) for color in state]
                     sides[face] = notation
-                    print(state)
+                   
             # show the new stickers
             self.draw_current_stickers(frame, state)
 
@@ -142,7 +120,7 @@ class Webcam:
 
             # show result
             cv2.imshow("default", frame)
-
+            
         self.cam.release()
         cv2.destroyAllWindows()
         return sides if len(sides) == 6 else False

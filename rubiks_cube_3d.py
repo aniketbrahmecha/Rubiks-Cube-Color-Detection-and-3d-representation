@@ -2,12 +2,10 @@ import tkinter as tk
 import time
 import math
 import random
-#import solution as s
+import singlemove as s
 
 root_two = math.sqrt(2)
 root_six = math.sqrt(6)
-
-
 
 
 def convert3dTo2d(coord):
@@ -102,11 +100,22 @@ def create_rubiks_cube(outline):
 
 
 def colourCube(cube,colour):
-    c = {'b':'blue','w':'white','r':'red','y':'yellow','o':'orange','g':'green'}
-    for i in range(6):
-        for j in range(9):
-            cube[i][j][5] = c[colour[i][j]]
-
+    c = {'b':'blue','r':'red','y':'yellow','g':'green','o':'orange','w':'white'}
+    # for i in range(6):
+    #     for j in range(9):
+    #         cube[i][j][5] = c[colour[i][j]]
+    for i in range(9):
+        cube[0][i][5] = c[colour[2][i]]
+    for i in range(9):
+        cube[1][i][5] = c[colour[0][i]]
+    for i in range(9):
+        cube[2][i][5] = c[colour[1][i]]
+    for i in range(9):
+        cube[3][i][5] = c[colour[3][i]]
+    for i in range(9):
+        cube[4][i][5] = c[colour[4][i]]
+    for i in range(9):
+        cube[5][i][5] = c[colour[5][i]]
 
 
 def draw_part_of_cube(cube_coords,canvas):
@@ -651,6 +660,7 @@ def moveB(direction,existing_cube,cube_coords,cube_colours,t,canvas):
 
 
     s.single_move(cube_colours,direction)
+    print(cube_)
     colourCube(cube_coords,cube_colours)
     cube2d = convert(cube_coords)
     return draw_part_of_cube(cube2d[:3],canvas)
@@ -678,7 +688,13 @@ def three_d_cube_moves(cube_coords,cube_colours,t,moves,canvas,exist_cube_loc = 
             poly_loc = moveL(move,poly_loc,cube_coords,cube_colours,t,canvas)
     return poly_loc
 
-rubik_cube_outline = [[(-1,1,-1),(1,1,-1),(1,1,1),(-1,1,1)],[(-1,1,1),(1,1,1),(1,-1,1),(-1,-1,1)],[(1,1,1),(1,1,-1),(1,-1,-1),(1,-1,1)],[(1,1,-1),(-1,1,-1),(-1,-1,-1),(1,-1,-1)],[(-1,1,-1),(-1,1,1),(-1,-1,1),(-1,-1,-1)],[(-1,-1,1),(1,-1,1),(1,-1,-1),(-1,-1,-1)]]
+rubik_cube_outline = [[(-1,1,-1),(1,1,-1),(1,1,1),(-1,1,1)],
+                      [(-1,1,1),(1,1,1),(1,-1,1),(-1,-1,1)],
+                      [(1,1,1),(1,1,-1),(1,-1,-1),(1,-1,1)],
+                      [(1,1,-1),(-1,1,-1),(-1,-1,-1),(1,-1,-1)],
+                      [(-1,1,-1),(-1,1,1),(-1,-1,1),(-1,-1,-1)],
+                      [(-1,-1,1),(1,-1,1),(1,-1,-1),(-1,-1,-1)]]
+
 rubiks_cube = create_rubiks_cube(rubik_cube_outline)
 solved_cube_colours=[['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'], ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'], ['r', 'r', 'r', 'r', 'r', 'r', 'r', 'r', 'r'], ['y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y'], ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'], ['g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g']]
 
@@ -688,6 +704,6 @@ if __name__ == '__main__':
     root.geometry("500x500")
     canvas = tk.Canvas(root, height = 400, width = 400)
     canvas.pack()
-    #git
-    three_d_cube_moves(rubiks_cube,[['r', 'w', 'y', 'r', 'b', 'w', 'w', 'y', 'o'], ['r', 'b', 'w', 'w', 'w', 'g', 'r', 'r', 'w'], ['b', 'r', 'g', 'r', 'r', 'g', 'b', 'y', 'g'], ['o', 'b', 'y', 'o', 'y', 'g', 'o', 'y', 'y'], ['b', 'b', 'g', 'w', 'o', 'o', 'b', 'b', 'g'], ['y', 'y', 'r', 'o', 'g', 'g', 'o', 'o', 'w']],0.5,["f'","l'","b'",'f','d',"r'",'u'],canvas)
+    three_d_cube_moves(rubiks_cube,[['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'], ['r', 'r', 'r', 'r', 'r', 'r', 'r', 'r', 'r'], ['y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y'], ['g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g'], ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'], ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w']],0.5,["f"],canvas)
+    #three_d_cube_moves(rubiks_cube,[['r', 'w', 'y', 'r', 'b', 'w', 'y', 'y', 'o'], ['g', 'g', 'g', 'r', 'r', 'y', 'b', 'o', 'y'], ['b', 'y', 'o', 'g', 'y', 'o', 'y', 'b', 'o'], ['w', 'o', 'w', 'g', 'g', 'r', 'b', 'b', 'w'], ['r', 'w', 'b', 'y', 'o', 'b', 'r', 'r', 'r'], ['g', 'b', 'w', 'g', 'w', 'w', 'g', 'o', 'o']],0.5,["f"],canvas)
     root.mainloop()
